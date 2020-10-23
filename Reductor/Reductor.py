@@ -43,7 +43,7 @@ def menor(clausula, cantidadVariables, k, x):
   return cantidadVariables, conversion
 
 #Reduce una cláusula para K > X usando la convención de abajo:
-#(Z1,Z2,Z3,...,Zp,V1)(-V1,Zp-(x-3),...,Zp,V2)(-Vk-x,Zp-(x-3),...,Zp,Zk)
+#(Z1,Z2,Z3,...,Zx-1,V1)(-V1,Z(x-3),...,Z(x-1),Zp,V2)(-Vk-x,Zp-(x-3),...,Zp,Zk)
 def mayor(clausula,cantidadVariables,k,x):
   contador = 0
   cantidadClausulasNuevas = k-x+1
@@ -55,14 +55,17 @@ def mayor(clausula,cantidadVariables,k,x):
      clausulaAuxiliar = clausula
    else:  
     if(i == 0):
+      #(Z1,Z2,Z3,...,Zx-1,V1)
       clausulaAuxiliar = clausula[contador:x-1]
       contador += x-1
       cantidadVariables += 1
       clausulaAuxiliar += [cantidadVariables]
     elif((i+1) == cantidadClausulasNuevas):
+      #(-V1,Z(x-3),...,Z(x-1),Zp,V2)
       clausulaAuxiliar = clausula[contador-(cantidadRepetidas):]
       clausulaAuxiliar += [-1*cantidadVariables]
     else:
+     #(-V1,Zp-(x-3),...,Zp,V2)
      clausulaAuxiliar = clausula[contador-(cantidadRepetidas):contador+1]
      contador += 1
      clausulaAuxiliar += [-1*cantidadVariables]
